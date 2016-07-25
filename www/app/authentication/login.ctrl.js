@@ -3,7 +3,7 @@
   angular.module('app')
     .controller('LoginCtrl', LoginCtrl);
 
-  function LoginCtrl($scope, $state, Storage){
+  function LoginCtrl($scope, $state, Storage, Auth, $log){
     var fn = {}, data = {};
     $scope.fn = fn;
     $scope.data = data;
@@ -20,5 +20,21 @@
         });
       }
     };
+
+    fn.loginWithGoogle = function loginWithGoogle() {
+      
+      var auth = firebase.auth();
+
+      var provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider).then(function(result) {
+        //console.log(result);
+        var accessToken = result.credential.accessToken;
+        console.log(accessToken);
+        $state.go('app.twitts');
+        console.log("Going to twitts");
+      });
+    };
   }
+
+
 })();

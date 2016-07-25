@@ -11,6 +11,7 @@
       Storage.clear().then(function(){
         $ionicHistory.clearHistory();
         $ionicHistory.clearCache();
+        firebase.auth().signOut();
         $state.go('login');
       });
     };

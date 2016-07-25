@@ -1,0 +1,30 @@
+<section class="mainbar" data-ng-init="vm.toViewSecurity()">
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+			Security View
+    </div>
+    <div class="panel-body">
+
+      <form novalidate>
+        <formly-form model="vm.security" fields="vm.formFields">
+        </formly-form>
+      </form>
+
+      <hr/>
+      <div>
+        <a class="btn btn-success" ui-sref="app.editSecurity({securityId: vm.security.id})">
+          <i class="glyphicon glyphicon-pencil"></i> Edit
+        </a>
+        <a class="btn btn-danger" title="Remove" ng-really-message="Are you sure ?" ng-really-click="vm.remove()" item="vm.security">
+          <i class="glyphicon glyphicon-trash"></i> Delete
+        </a>
+        <a class="btn btn-primary" ui-sref="app.listSecurity()">
+          <i class="glyphicon glyphicon-list"></i> List Securities
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</section>

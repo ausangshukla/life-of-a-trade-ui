@@ -9,6 +9,10 @@
     var pluginTest = function(){ return $window.plugins && $window.plugins.toast; };
     return {
       show: show,
+      error: show,
+      info: show,
+      success: show,
+      warning: show,
       showShortTop    : function(message){ return show(message, 'short', 'top');     },
       showShortCenter : function(message){ return show(message, 'short', 'center');  },
       showShortBottom : function(message){ return show(message, 'short', 'bottom');  },

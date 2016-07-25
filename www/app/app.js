@@ -1,6 +1,7 @@
 (function(){
   'use strict';
-  angular.module('app', ['ionic'])
+  angular.module('app', ['ionic', 'firebase', 'blocks.router'])
+    .constant('FirebaseUrl', 'https://lifeofatrade.firebaseio.com/')
     .config(configBlock)
     .run(runBlock);
 
@@ -20,7 +21,10 @@
       url: '/app',
       abstract: true,
       templateUrl: 'app/layout/layout.html',
-      controller: 'LayoutCtrl'
+      controller: 'LayoutCtrl',
+      resolve: {
+        authData: AuthDataResolver
+      }
     })
     .state('app.twitts', {
       url: '/twitts',
@@ -55,7 +59,7 @@
       }
     });
 
-    $urlRouterProvider.otherwise('/loading');
+    $urlRouterProvider.otherwise('/login');
 
     // catch Angular errors
     $provide.decorator('$exceptionHandler', ['$delegate', function($delegate){
@@ -73,6 +77,17 @@
     }]);
   }
 
+  function AuthDataResolver($location) {
+    console.log("AuthDataResolver called");
+    var requireAuth = firebase.auth().currentUser;
+    console.log("requireAuth = " + requireAuth);
+    if(requireAuth) {
+
+    } else {
+      $location.path('/'); 
+    }
+  }
+  
   // catch JavaScript errors
   window.onerror = function(message, url, line, col, error){
     var stopPropagation = false;
@@ -98,7 +113,7 @@
     return stopPropagation;
   };
 
-  function runBlock($rootScope){
+  function runBlock($rootScope, FirebaseDB){
     $rootScope.safeApply = function(fn){
       var phase = this.$root ? this.$root.$$phase : this.$$phase;
       if(phase === '$apply' || phase === '$digest'){
@@ -109,5 +124,17 @@
         this.$apply(fn);
       }
     };
+
+     
+    
+    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+      // We can catch the error thrown when the $requireAuth promise is rejected
+      // and redirect the user back to the home page
+      if (error === 'AUTH_REQUIRED') {
+        $state.go('login');
+      }
+    });
+
   }
+
 })();
