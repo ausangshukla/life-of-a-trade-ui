@@ -5,9 +5,9 @@
         .module('app.security')
         .factory('Security', Security);
 
-    Security.$inject = ['$resource', 'API_BASE_URL'];
+    Security.$inject = ['$resource', 'SPRAY_API_BASE_URL'];
     /* @ngInject */
-    function Security($resource, API_BASE_URL) {
+    function Security($resource, SPRAY_API_BASE_URL) {
 
         var params = {
             securityId: '@id',
@@ -19,14 +19,14 @@
                 method: 'PUT'
             },
             search: {
-            	url: API_BASE_URL + "/securities/search",	
+            	url: SPRAY_API_BASE_URL + "/securities/search",	
             	method: "GET",
             	params: {term: '@term'},
             	isArray: true
             }
         };
 
-        var API_URL = API_BASE_URL + '/securities/:securityId';
+        var API_URL = SPRAY_API_BASE_URL + '/securities/:securityId';
 
         return $resource(API_URL, params, actions);
 

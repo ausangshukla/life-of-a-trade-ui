@@ -26,11 +26,8 @@
 	angular.module('app.security').controller('SecurityController',
 			SecurityController);
 	
-	SecurityController.$inject = [ 'logger', '$stateParams', '$location',
-			'Security', 'SecurityForm' ];
-	/* @ngInject */
-	function SecurityController(logger, $stateParams, $location, Security,
-			SecurityForm) {
+	SecurityController.$inject = ['$stateParams', '$location', 'API_BASE_URL', 'Security', 'SecurityForm' ];
+	function SecurityController($stateParams, $location, API_BASE_URL, Security, SecurityForm) {
 
 		var vm = this;
 		/*
@@ -50,7 +47,7 @@
 
 			// Redirect after save
 			security.$save(function(response) {
-				logger.success('Security created');
+				console.log('Security created');
 				$location.path('security/' + response.id);
 			}, function(errorResponse) {
 				vm.error = errorResponse.data.summary;
@@ -65,13 +62,13 @@
 					securityId : security.id
 				}, function() {
 					security.$remove(function() {
-						logger.success('Security deleted');
+						console.log('Security deleted');
 						vm.tableParams.reload();
 					});
 				});
 			} else {
 				vm.security.$remove(function() {
-					logger.success('Security deleted');
+					console.log('Security deleted');
 					$location.path('/security');
 				});
 			}
@@ -83,7 +80,7 @@
 			var security = vm.security;
 
 			security.$update(function() {
-				logger.success('Security updated');
+				console.log('Security updated');
 				$location.path('security/' + security.id);
 			}, function(errorResponse) {
 				vm.error = errorResponse.data.summary;
@@ -107,7 +104,7 @@
 		activate();
 
 		function activate() {
-			console.log('Activated Security View');
+			console.log('Activated Security View ' + API_BASE_URL);
 			Security.query(function(data) {
 				console.log('Securities loaded');
 				vm.securities = data;

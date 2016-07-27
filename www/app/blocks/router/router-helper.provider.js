@@ -93,6 +93,7 @@
                         handlingStateChangeError = false;
                         var title = config.docTitle + ' ' + (toState.title || '');
                         $rootScope.title = title; // data bind to <title>
+                        //console.log("stateChangeSuccess", [toState]);
                     }
                 );
             }

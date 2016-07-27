@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  angular.module('app', ['ionic', 'firebase', 'blocks.router'])
+  angular.module('app', ['ionic', 'firebase', 'blocks.router', 'ngResource'])
     .constant('FirebaseUrl', 'https://lifeofatrade.firebaseio.com/')
     .config(configBlock)
     .run(runBlock);

@@ -16,11 +16,15 @@
             {
                 state: 'app.listSecurity',
                 config: {
-                    url: '/security',
-                    templateUrl: 'app/security/views/list.html',
-                    controller: 'SecurityController',
-                    controllerAs: 'vm',
-                    title: 'List Securities'
+                    views: {
+                        'menuContent': {
+                            url: '/security',
+                            templateUrl: 'app/security/views/list.html',
+                            controller: 'SecurityController',
+                            controllerAs: 'vm',
+                            title: 'List Securities'
+                        }
+                    }
                 }
             },
             {
