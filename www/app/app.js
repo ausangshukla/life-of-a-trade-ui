@@ -14,47 +14,43 @@
     })
     .state('login', {
       url: '/login',
-      templateUrl: 'app/authentication/login.html',
-      controller: 'LoginCtrl'
+      views: {
+        'mainContent': {
+          templateUrl: 'app/authentication/login.html',
+          controller: 'LoginCtrl'
+        }
+      }
     })
     .state('app', {
       url: '/app',
       abstract: true,
-      templateUrl: 'app/layout/layout.html',
-      controller: 'LayoutCtrl',
+      views: {
+        'mainContent': {
+          templateUrl: 'app/layout/layout.html',
+          controller: 'LayoutCtrl',
+        }
+      },
       resolve: {
         authData: AuthDataResolver
       }
     })
     .state('app.twitts', {
-      url: '/twitts',
-      views: {
-        'menuContent': {
-          templateUrl: 'app/twitts/twitts.html',
-          controller: 'TwittsCtrl'
-        }
-      }
+      url: '/twitts',      
+      templateUrl: 'app/twitts/twitts.html',
+      controller: 'TwittsCtrl'
     })
     .state('app.twitt', {
       url: '/twitts/:id',
-      views: {
-        'menuContent': {
-          templateUrl: 'app/twitts/twitt.html',
-          controller: 'TwittCtrl'
-        }
-      }
+      templateUrl: 'app/twitts/twitt.html',
+      controller: 'TwittCtrl'
     })
     .state('app.settings', {
       url: '/settings',
-      views: {
-        'menuContent': {
-          templateUrl: 'app/settings/settings.html',
-          controller: 'SettingsCtrl',
-          resolve: {
-            resolvedSettings: function(Storage){
-              return Storage.getUserSettings();
-            }
-          }
+      templateUrl: 'app/settings/settings.html',
+      controller: 'SettingsCtrl',
+      resolve: {
+        resolvedSettings: function(Storage){
+          return Storage.getUserSettings();
         }
       }
     });

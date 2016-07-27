@@ -3,17 +3,17 @@
 
 
 	angular.module('app.security').controller('SecuritiesSearchCtrl',
-			SecuritiesSearchCtrl);
+		SecuritiesSearchCtrl);
 
-	SecuritiesSearchCtrl.$inject = [ '$scope', '$location', '$filter', 'Security'];
-	
-	function SecuritiesSearchCtrl($scope, $location, $filter, Security) {
-		
+	SecuritiesSearchCtrl.$inject = ['$state', '$scope', '$location', '$filter', 'Security'];
+
+	function SecuritiesSearchCtrl($state, $scope, $location, $filter, Security) {
+
 		var vm = this;
-		
+
 		vm.search = function(term) {
 			return $scope.search_securities = Security.search({
-				term : term
+				term: term
 			}).$promise.then((function(response) {
 				console.log(response);
 				return response;
@@ -21,13 +21,14 @@
 		};
 	};
 
-	
+
 
 	angular.module('app.security').controller('SecurityController',
-			SecurityController);
-	
-	SecurityController.$inject = ['$stateParams', '$location', 'API_BASE_URL', 'Security', 'SecurityForm' ];
-	function SecurityController($stateParams, $location, API_BASE_URL, Security, SecurityForm) {
+		SecurityController);
+
+	SecurityController.$inject = ['$state', '$stateParams', '$location', 'API_BASE_URL', 'Security', 'SecurityForm'];
+
+	function SecurityController($state, $stateParams, $location, API_BASE_URL, Security, SecurityForm) {
 
 		var vm = this;
 		/*
@@ -40,6 +41,15 @@
 		vm.setFormFields = function(disabled) {
 			vm.formFields = SecurityForm.getFormFields(disabled);
 		};
+
+		vm.loadAll = function() {
+			Security.query(function(data) {
+				console.log('Securities loaded');
+				vm.securities = data;
+			}, function(errorResponse) {
+				vm.error = errorResponse.data.summary;
+			});
+		}
 
 		vm.create = function() {
 			// Create new Security object
@@ -59,7 +69,7 @@
 
 			if (security) {
 				security = Security.get({
-					securityId : security.id
+					securityId: security.id
 				}, function() {
 					security.$remove(function() {
 						console.log('Security deleted');
@@ -88,15 +98,16 @@
 		};
 
 		vm.toViewSecurity = function() {
+			console.log('$stateParams.securityId = ' + $stateParams.securityId);
 			vm.security = Security.get({
-				securityId : $stateParams.securityId
+				securityId: $stateParams.securityId
 			});
 			vm.setFormFields(true);
 		};
 
 		vm.toEditSecurity = function() {
 			vm.security = Security.get({
-				securityId : $stateParams.securityId
+				securityId: $stateParams.securityId
 			});
 			vm.setFormFields(false);
 		};
@@ -104,13 +115,17 @@
 		activate();
 
 		function activate() {
-			console.log('Activated Security View ' + API_BASE_URL);
-			Security.query(function(data) {
-				console.log('Securities loaded');
-				vm.securities = data;
-			}, function(errorResponse) {
-				vm.error = errorResponse.data.summary;
-			});
+
+			console.log("$state.name = " + $state.current.name);
+
+			switch ($state.current.name) {
+				case "app.viewSecurity":
+					vm.toViewSecurity();
+					break;
+				case "app.listSecurity":
+					vm.loadAll();
+					break;
+			}
 		}
 	}
 

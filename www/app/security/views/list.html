@@ -9,7 +9,7 @@
   <ion-content class="has-subheader">
     <div ng-if="vm.securities.length === 0" class="empty-msg">Aucun twitt :(</div>
     <div ng-if="vm.securities.length > 0" class="list">
-      <a class="item item-avatar" ng-repeat="security in vm.filteredSecurities = (vm.securities | filter:search) track by security.id" ui-sref="app.viewSecurity({id: security.id})">
+      <a class="item item-avatar" ng-repeat="security in vm.filteredSecurities = (vm.securities | filter:search) track by security.id" ui-sref="app.viewSecurity({securityId: security.id})">
         <img ng-src="{{twitt.avatar}}">
         <h2>{{security.name}}</h2>
         <p>
