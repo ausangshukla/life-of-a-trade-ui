@@ -1,33 +1,20 @@
-<section class="mainbar" data-ng-init="vm.setFormFields()">
+<ion-view title="Securities">
+  <ion-content class="has-subheader">
+    <form data-ng-submit="vm.create()" novalidate>
 
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      New Security
-    </div>
-    <div class="panel-body">
+      <div class="list">
+       <label class="item item-input item-stacked-label">
+       <span class="input-label"t>Name</span>
+         <input type="text" placeholder="Name" model="vm.security.name">
+       </label>
 
-      <form data-ng-submit="vm.create()" novalidate>
+       <label class="item item-input item-stacked-label">
+         <span class="input-label">Ticker</span>
+         <input type="text" placeholder="Ticker" model="vm.security.ticker">
+       </label>
+     </div>
 
-        <formly-form model="vm.security" fields="vm.formFields" form="vm.form">
-        </formly-form>
+   </form>
 
-        <hr/>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success" ng-disabled="vm.form.$invalid">
-              <i class="glyphicon glyphicon-ok"></i> Save
-            </button>
-            <a class="btn btn-danger" ui-sref="app.listSecurity()">
-              <i class="glyphicon glyphicon-remove"></i> Cancel
-            </a>
-        </div>
-
-        <div data-ng-show="vm.error" class="alert alert-danger form-group">
-          <strong data-ng-bind="vm.error"></strong>
-        </div>
-
-      </form>
-
-    </div>
-  </div>
-
-</section>
+ </ion-content>
+</ion-view>

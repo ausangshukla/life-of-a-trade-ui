@@ -30,8 +30,7 @@
         //console.log(result);
         var accessToken = result.credential.accessToken;
         console.log(accessToken);
-        $state.go('app.twitts');
-        console.log("Going to twitts");
+        $state.go('app.listSecurity');
       });
     };
   }

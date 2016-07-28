@@ -58,7 +58,7 @@
 			// Redirect after save
 			security.$save(function(response) {
 				console.log('Security created');
-				$location.path('security/' + response.id);
+				$state.go("app.viewSecurity",{securityId: response.id});
 			}, function(errorResponse) {
 				vm.error = errorResponse.data.summary;
 			});
@@ -91,7 +91,7 @@
 
 			security.$update(function() {
 				console.log('Security updated');
-				$location.path('security/' + security.id);
+				$state.go("app.listSecurity")
 			}, function(errorResponse) {
 				vm.error = errorResponse.data.summary;
 			});
@@ -124,6 +124,9 @@
 					break;
 				case "app.listSecurity":
 					vm.loadAll();
+					break;
+				case "app.createSecurity":
+					vm.setFormFields(false);
 					break;
 			}
 		}
