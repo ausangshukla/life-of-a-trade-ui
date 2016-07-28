@@ -26,9 +26,9 @@
 	angular.module('app.security').controller('SecurityController',
 		SecurityController);
 
-	SecurityController.$inject = ['$state', '$stateParams', '$location', 'API_BASE_URL', 'Security', 'SecurityForm'];
+	SecurityController.$inject = ['$scope', '$state', '$stateParams', '$location', 'API_BASE_URL', 'Security', 'SecurityForm'];
 
-	function SecurityController($state, $stateParams, $location, API_BASE_URL, Security, SecurityForm) {
+	function SecurityController($scope, $state, $stateParams, $location, API_BASE_URL, Security, SecurityForm) {
 
 		var vm = this;
 		/*
@@ -99,37 +99,48 @@
 
 		vm.toViewSecurity = function() {
 			console.log('$stateParams.securityId = ' + $stateParams.securityId);
-			vm.security = Security.get({
-				securityId: $stateParams.securityId
-			});
-			vm.setFormFields(true);
+			if($stateParams.securityId) {
+				vm.security = Security.get({
+					securityId: $stateParams.securityId
+				});
+				vm.setFormFields(true);
+			}
 		};
 
 		vm.toEditSecurity = function() {
-			vm.security = Security.get({
-				securityId: $stateParams.securityId
-			});
-			vm.setFormFields(false);
+			if($stateParams.securityId) {
+				vm.security = Security.get({
+					securityId: $stateParams.securityId
+				});
+				vm.setFormFields(false);
+			}
 		};
 
 		activate();
 
-		function activate() {
+		function activate() { 
 
-			console.log("$state.name = " + $state.current.name);
+			$scope.$on("$stateChangeSuccess", function(event, current, toParams, fromState, fromParams) {
+				
+				console.log("SecurityController: $state.name = " + current.name);	
 
-			switch ($state.current.name) {
-				case "app.viewSecurity":
-					vm.toViewSecurity();
-					break;
-				case "app.listSecurity":
-					vm.loadAll();
-					break;
-				case "app.createSecurity":
-					vm.setFormFields(false);
-					break;
-			}
+				switch (current.name) {
+					case "app.viewSecurity":
+						vm.toViewSecurity();
+						break;
+					case "app.listSecurity":
+						vm.loadAll();
+						break;
+					case "app.createSecurity":
+						vm.setFormFields(false);
+						break;
+				}
+			});			
+
+			
 		}
+
+
 	}
 
 })();
