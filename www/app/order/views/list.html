@@ -1,0 +1,48 @@
+<ion-view title="Orders">
+  
+  <div ng-if="vm.orders.length > 0" class="bar bar-subheader item-input-inset" ng-class="{'bar-positive': search.length > 0}">
+    <label class="item-input-wrapper">
+      <i class="icon ion-search placeholder-icon"></i>
+      <input type="search" placeholder="Search ..." ng-model="search">
+    </label>
+    <button class="button button-clear" ng-click="search=''">Clear</button>
+  </div>
+
+  <ion-content class="has-subheader">
+  
+    <div ng-if="vm.orders.length === 0" class="empty-msg">No data available</div>
+  
+    <div ng-if="vm.orders.length > 0" class="list">
+  
+      <a class="item item-avatar" ng-repeat="order in vm.filteredorders = (vm.orders | filter:search) track by order.id" ui-sref="app.viewOrder({orderId: order.id})">
+  
+        <img ng-src="{{order.img}}">
+        
+        <h2>{{order.id}}</h2>
+  
+        <p>
+         
+          {{order.exchange}},
+         
+          {{order.buy_sell}},
+         
+          {{order.order_type}},
+         
+          {{order.user_id}},
+         
+          {{order.security_id}},
+         
+          {{order.ticker}},
+         
+          {{order.quantity}},
+         
+          {{order.price}},
+        
+        </p>
+  
+      </a>
+  
+    </div>
+  
+  </ion-content>
+</ion-view>

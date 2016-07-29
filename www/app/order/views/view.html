@@ -1,0 +1,24 @@
+<ion-view>
+  <ion-nav-title>{{content.title}}</ion-nav-title>
+  <ion-content>
+    <div class="list card">
+      <div class="item item-avatar">
+        
+        <form data-ng-submit="vm.doNothing()" novalidate>
+
+          <div ng-include="'app/order/views/form.html'">
+          </div>
+
+          <button class="button button-block button-positive" type="submit" ng-disabled="vm.form.$invalid">
+            Save
+          </button>
+          <button class="button button-block button-assertive" ui-sref="app.listOrder()">
+            Cancel
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
