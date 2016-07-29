@@ -3,6 +3,9 @@
   angular.module('app', ['ionic', 'formly', 'formlyIonic', 'firebase', 'blocks.router', 'blocks.logger', 'ngResource'])
     .constant('FirebaseUrl', 'https://lifeofatrade.firebaseio.com/')
     .config(configBlock)
+    .config(['$httpProvider', function($httpProvider) {  
+      //$httpProvider.interceptors.push('sessionInjector');
+    }])
     .run(runBlock);
 
   function configBlock($stateProvider, $urlRouterProvider, $provide){
@@ -78,7 +81,7 @@
     var requireAuth = firebase.auth().currentUser;
     console.log("requireAuth = " + requireAuth);
     if(requireAuth) {
-
+      $location.path('/app/securities');
     } else {
       $location.path('/'); 
     }
